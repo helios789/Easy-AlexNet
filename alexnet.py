@@ -12,7 +12,7 @@ def bias_variable(shape, stddev=0.01):
 class AlexNet:
 
     learning_rate   = 0.001
-    training_iters  = 200000
+    training_epochs  = 200000
     batch_size      = 1024
     
     n_inputs_w = 227      # 227 * 227
@@ -139,11 +139,34 @@ class AlexNet:
         return fc8
             
         
-        def build_loss(self):
-            weight_decay = 0.0005
-            
-            predict = self.build_model(self.weights, self.biases)
+        def build_loss(self, predict):
+            # softmax loss
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=predict, labels=self.y))
+            optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+            return optimizer
+
+        def train(self):
+            self.read_data()
+            self.build_layer()
+            self.build_loss()
+
+            with tf.Session() as sess:
+                init = tf.global_variables_initializer()
+                sess.run(init)
+
+                for epoch in range(self.training_epochs):
+                    avg_cost = 0
+                    total_batch = tf.shape(self.x)[0] / batch_size
+                    
+                    for mini_batch in range(total_batch):
+                        # batch 1개 에 대한 cost 계산후 train 수행
+
+
+
+
+
+        
+        
 
 
 

@@ -59,21 +59,6 @@ class AlexNet:
     def max_pool(self, x, ksize, stride, padding='SAME'):
         pool = tf.nn.max_pool(x, ksize=[1, ksize, ksize, 1], strides=[1, stride, stride, 1], padding=padding)
         return pool
-
-    """
-    def conv_layer(x, side_l, stride, out_depth, padding='SAME', **kwargs):
-    새로운 컨볼루션 층을 추가함.
-    :param x: tf.Tensor, shape: (N, H, W, C).
-    :param side_l: int, 필터의 한 변의 길이.
-    :param stride: int, 필터의 각 방향으로의 이동 간격.
-    :param out_depth: int, 입력값에 적용할 필터의 총 개수.
-    :param padding: str, 'SAME' 또는 'VALID',
-                         컨볼루션 연산 시 입력값에 대해 적용할 패딩 알고리즘.
-    :param kwargs: dict, 추가 인자, 가중치/바이어스 초기화를 위한 하이퍼파라미터들을 포함함.
-        - weight_stddev: float, 샘플링 대상이 되는 정규분포의 표준편차 값.
-        - biases_value: float, 바이어스의 초기화 값.
-    :return: tf.Tensor.
-    """
     
         
     def build_model(self, weights, biases):
@@ -142,7 +127,7 @@ class AlexNet:
         def build_loss(self, predict):
             # softmax loss
             cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits_v2(logits=predict, labels=self.y))
-            optimizer = tf.train.AdamOptimizer(learning_rate=learning_rate).minimize(cost)
+            optimizer = tf.train.AdamOptimizer(learning_rate=self.learning_rate).minimize(cost)
             return optimizer
 
         def train(self):
@@ -160,25 +145,3 @@ class AlexNet:
                     
                     for mini_batch in range(total_batch):
                         # batch 1개 에 대한 cost 계산후 train 수행
-
-
-
-
-
-        
-        
-
-
-
-
-
-            
-
-        
-
-
-
-        
-
-
-
